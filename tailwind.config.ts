@@ -8,9 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // add default font
       fontFamily: {
         gaegu: ['var(--font-gaegu)', 'cursive'],
+      },
+      colors: {
+        c1: '#0079FF',
+        c2: '#00DFA2',
+        c3: '#F6FA70',
+        c4: '#FF0060',
       },
     },
   },
