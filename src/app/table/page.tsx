@@ -1,35 +1,52 @@
-interface Etf {
-  name: string;
-  ytm: number;
-  duration: number;
-  marketcap: number;
-  fundfee: number;
+"use client";
+
+import React, { useEffect, useState } from 'react';
+
+interface SyncedValue {
+  value: string,
+  synced: boolean,
+  ts: string,
 }
 
+interface Etf {
+  name: string;
+  code: string;
+  ytm: SyncedValue;
+  duration: SyncedValue;
+  marketcap: SyncedValue;
+  fundfee: SyncedValue;
+}
+
+function toFixed(fractionDigits: number | undefined = 2): (value: string) => string {
+  return (value) => parseFloat(value).toFixed(fractionDigits);
+}
+
+function toLocale(value: string): string {
+  return parseFloat(value).toLocaleString();
+}
+
+function Synced({ value, convert = toFixed() }: { value: SyncedValue, convert?: ((value: string) => string) }) {
+  const converted_value = convert(value.value);
+  if (value.synced)
+    return (<>{ converted_value }</>);
+  
+  return (
+    <span title={value.ts} className="line-through text-slate-300">
+      &#x26A0;{ converted_value }
+    </span>
+  );
+};
+
 export default function Home() {
-  const data: Etf[] = [
-    {
-      name: "ABCDE 24-12 국고채액티브",
-      ytm: 3.5,
-      duration: 1.1,
-      marketcap: 10000,
-      fundfee: 0.05,
-    },
-    {
-      name: "ABCDE 25-06 회사채(A+이상)액티브",
-      ytm: 4.6,
-      duration: 1.5,
-      marketcap: 1000,
-      fundfee: 0.05,
-    },
-    {
-      name: "ABCDE 24-06 회사채(AA-이상)액티브",
-      ytm: 4.2,
-      duration: 0.5,
-      marketcap: 5000,
-      fundfee: 0.1,
-    },
-  ];
+  const [data, setData] = useState<Etf[]>([]);
+
+  useEffect(() => {
+    fetch('https://carrotade.com/ytmscanner/published/data.json')
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error(error));
+  }, []);
+
   return (
     <>
     <div>
@@ -58,25 +75,25 @@ export default function Home() {
               <div className="list-item ml-7 md:m-0 md:table-cell md:px-2 md:py-2 md:border md:border-slate-300">
                 <div className="flex md:block">
                   <div className="block m-2 md:hidden">YTM:</div>
-                  <div className="block m-2 md:m-0">{item.ytm}</div>
+                  <div className="block m-2 md:m-0"><Synced value={item.ytm}/></div>
                 </div>
               </div>
               <div className="list-item ml-7 md:m-0 md:table-cell md:px-2 md:py-2 md:border md:border-slate-300">
                 <div className="flex md:block">
                   <div className="block m-2 md:hidden">Duration:</div>
-                  <div className="block m-2 md:m-0">{item.duration}</div>
+                  <div className="block m-2 md:m-0"><Synced value={item.duration}/></div>
                 </div>
               </div>
               <div className="list-item ml-7 md:m-0 md:table-cell md:px-2 md:py-2 md:border md:border-slate-300">
                 <div className="flex md:block">
                   <div className="block m-2 md:hidden">MarketCap:</div>
-                  <div className="block m-2 md:m-0">{item.marketcap}</div>
+                  <div className="block m-2 md:m-0"><Synced value={item.marketcap} convert={toLocale}/></div>
                 </div>
               </div>
               <div className="list-item ml-7 md:m-0 md:table-cell md:px-2 md:py-2 md:border md:border-slate-300">
                 <div className="flex md:block">
                   <div className="block m-2 md:hidden">Fee:</div>
-                  <div className="block m-2 md:m-0">{item.fundfee}</div>
+                  <div className="block m-2 md:m-0"><Synced value={item.fundfee}/></div>
                 </div>
               </div>
             </div>
