@@ -16,7 +16,7 @@ export default function Home({ data }: { data: Etf[]}) {
     <div>
       <h1 className="my-10 mx-auto w-fit font-gaegu text-2xl font-bold tracking-tight text-slate-700">Card & Table Responsive Test</h1>
     </div>
-    <div className="mx-auto w-[500px] flex flex-wrap justify-center gap-7">
+    <div className="mx-auto px-10 flex flex-wrap justify-center gap-7">
       {
         data.map((item, idx) => (
           <div key={idx} className="group w-[350px] bg-white rounded-3xl shadow-md overflow-hidden hover:bg-slate-50">
