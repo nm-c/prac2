@@ -10,22 +10,6 @@ interface CardProps {
   imageUrl: string;
 }
 
-function Card({ title, description, imageUrl }: CardProps) {
-  return (
-    <div className="max-w-md bg-white rounded-xl shadow-md overflow-hidden ">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <img className="h-48 w-full object-cover md:w-48" src={imageUrl} alt={title} />
-        </div>
-        <div className="p-8">
-          <div className="uppercase tracking-wide text-c1 font-semibold">{title}</div>
-          <p className="mt-2 text-sm text-gray-500">{description}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export default function Home({ data }: { data: Etf[]}) {
   return (
     <>
@@ -35,26 +19,26 @@ export default function Home({ data }: { data: Etf[]}) {
     <div className="mx-auto w-[500px] flex flex-wrap justify-center gap-7">
       {
         data.map((item, idx) => (
-          <div key={idx} className="w-[300px] bg-white rounded-3xl shadow-md overflow-hidden hover:bg-slate-50">
-            <div className="w-full bg-slate-50 p-5">
+          <div key={idx} className="group w-[350px] bg-white rounded-3xl shadow-md overflow-hidden hover:bg-slate-50">
+            <div className="w-full bg-slate-50 pt-6 pb-4 group-hover:bg-slate-200">
               <div className="text-bold tracking-tighter text-slate-700 text-center">{item.name}</div>
             </div>
-            <div className="p-8 flex flex-wrap justify-center gap-4">
+            <div className="py-6 flex flex-wrap justify-center gap-4">
               <div className="">
-                <div className="text-xs text-slate-500">YTM</div>
-                <div className="text-lg"><Synced value={item.ytm}/></div>
+                <div className="text-xs text-slate-500 tracking-wide">YTM</div>
+                <div className="text-xl"><Synced value={item.ytm} postfix="%"/></div>
               </div>
               <div className="">
-                <div className="text-xs text-slate-500">Duration</div>
-                <div className="text-lg"><Synced value={item.duration}/></div>
+                <div className="text-xs text-slate-500 tracking-wide">Duration</div>
+                <div className="text-xl"><Synced value={item.duration}/></div>
               </div>
               <div className="">
-                <div className="text-xs text-slate-500">MarketCap</div>
-                <div className="text-lg"><Synced value={item.marketcap} convert={toLocale}/></div>
+                <div className="text-xs text-slate-500 tracking-wide">MarketCap</div>
+                <div className="text-xl"><Synced value={item.marketcap} postfix="억원" convert={toLocale}/></div>
               </div>
               <div className="">
-                <div className="text-xs text-slate-500">Fee</div>
-                <div className="text-lg"><Synced value={item.fundfee}/></div>
+                <div className="text-xs text-slate-500 tracking-wide">FundFee</div>
+                <div className="text-xl"><Synced value={item.fundfee} postfix="%"/></div>
               </div>
             </div>
           </div>
