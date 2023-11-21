@@ -17,6 +17,12 @@ export default function Home() {
         >
           Table
         </button>
+        <button 
+          onClick={() => router.push('/responsive')}
+          className="bg-c3/50 text-c1 font-gaegu text-2xl p-5 rounded-xl m-5 py-2"
+        >
+          Responsive
+        </button>
       </div>
       <div className="flex-shrink-0 flex-grow flex justify-center items-center">
         <div className="font-gaegu m-10 border rounded-3xl px-10 py-8 shadow-2xl">
